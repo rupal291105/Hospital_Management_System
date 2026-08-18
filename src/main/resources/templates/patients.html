@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Patients</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<nav><div class="brand">🏥 MediCare HMS</div><div><a href="/">Dashboard</a><a class="active" href="/patients">Patients</a><a href="/doctors">Doctors</a><a href="/appointments">Appointments</a><a href="/bills">Billing</a></div></nav>
+<main><div class="page-head"><h1>Patients</h1><a class="button" href="/patients/new">+ Add Patient</a></div>
+<form class="search" method="get"><input name="search" th:value="${search}" placeholder="Search patient by name"><button>Search</button></form>
+<table><thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Phone</th><th>Email</th><th>History</th><th>Action</th></tr></thead>
+<tbody><tr th:each="p : ${patients}"><td th:text="${p.id}"></td><td th:text="${p.name}"></td><td th:text="${p.age}"></td><td th:text="${p.gender}"></td><td th:text="${p.phone}"></td><td th:text="${p.email}"></td><td th:text="${p.medicalHistory}"></td><td><form th:action="@{'/patients/delete/' + ${p.id}}" method="post"><button class="danger" onclick="return confirm('Delete this patient?')">Delete</button></form></td></tr></tbody></table>
+</main></body></html>

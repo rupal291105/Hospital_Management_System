@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Add Doctor</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<nav><div class="brand">🏥 MediCare HMS</div><div><a href="/">Dashboard</a><a href="/patients">Patients</a><a href="/doctors">Doctors</a><a href="/appointments">Appointments</a><a href="/bills">Billing</a></div></nav>
+<main class="form-page"><h1>Add Doctor</h1>
+<form class="form" th:action="@{/doctors/save}" th:object="${doctor}" method="post">
+<label>Name<input th:field="*{name}" required></label><label>Specialization<input th:field="*{specialization}"></label>
+<label>Phone<input th:field="*{phone}"></label><label>Email<input type="email" th:field="*{email}"></label><label>Room Number<input th:field="*{roomNumber}"></label>
+<div><button class="button">Save Doctor</button><a class="button secondary" href="/doctors">Cancel</a></div>
+</form></main></body></html>

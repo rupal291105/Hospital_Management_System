@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Billing</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<nav><div class="brand">🏥 MediCare HMS</div><div><a href="/">Dashboard</a><a href="/patients">Patients</a><a href="/doctors">Doctors</a><a href="/appointments">Appointments</a><a class="active" href="/bills">Billing</a></div></nav>
+<main><div class="page-head"><h1>Billing</h1><a class="button" href="/bills/new">+ Create Bill</a></div>
+<table><thead><tr><th>ID</th><th>Patient</th><th>Date</th><th>Total</th><th>Paid</th><th>Status</th></tr></thead>
+<tbody><tr th:each="b : ${bills}"><td th:text="${b.id}"></td><td th:text="${b.patient.name}"></td><td th:text="${b.billDate}"></td><td>₹ <span th:text="${b.totalAmount}"></span></td><td>₹ <span th:text="${b.paidAmount}"></span></td><td><span class="badge" th:text="${b.status}"></span></td></tr></tbody></table>
+</main></body></html>

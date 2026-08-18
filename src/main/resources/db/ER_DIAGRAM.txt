@@ -1,0 +1,47 @@
+HOSPITAL MANAGEMENT SYSTEM - ER STRUCTURE
+
+PATIENTS
+--------
+PK id
+name
+age
+gender
+phone
+email
+address
+medical_history
+       |
+       | 1 : M
+       v
+APPOINTMENTS
+------------
+PK id
+FK patient_id
+FK doctor_id
+appointment_date
+reason
+status
+       ^
+       | M : 1
+       |
+DOCTORS
+-------
+PK id
+name
+specialization
+phone
+email
+room_number
+
+PATIENTS
+   |
+   | 1 : M
+   v
+BILLS
+-----
+PK id
+FK patient_id
+total_amount
+paid_amount
+bill_date
+status

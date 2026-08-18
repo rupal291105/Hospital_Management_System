@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Doctors</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<nav><div class="brand">🏥 MediCare HMS</div><div><a href="/">Dashboard</a><a href="/patients">Patients</a><a class="active" href="/doctors">Doctors</a><a href="/appointments">Appointments</a><a href="/bills">Billing</a></div></nav>
+<main><div class="page-head"><h1>Doctors</h1><a class="button" href="/doctors/new">+ Add Doctor</a></div>
+<form class="search" method="get"><input name="search" th:value="${search}" placeholder="Search doctor by name"><button>Search</button></form>
+<table><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Phone</th><th>Email</th><th>Room</th><th>Action</th></tr></thead>
+<tbody><tr th:each="d : ${doctors}"><td th:text="${d.id}"></td><td th:text="${d.name}"></td><td th:text="${d.specialization}"></td><td th:text="${d.phone}"></td><td th:text="${d.email}"></td><td th:text="${d.roomNumber}"></td><td><form th:action="@{'/doctors/delete/' + ${d.id}}" method="post"><button class="danger" onclick="return confirm('Delete this doctor?')">Delete</button></form></td></tr></tbody></table>
+</main></body></html>

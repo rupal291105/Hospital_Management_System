@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><title>Hospital Management</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav><div class="brand">🏥 MediCare HMS</div><div><a href="/">Dashboard</a><a href="/patients">Patients</a><a href="/doctors">Doctors</a><a href="/appointments">Appointments</a><a href="/bills">Billing</a></div></nav>
+<main>
+    <h1>Hospital Management System</h1>
+    <p class="subtitle">Simple DBMS Mini Project</p>
+    <div class="cards">
+        <div class="card"><span>Patients</span><strong th:text="${patientCount}">0</strong></div>
+        <div class="card"><span>Doctors</span><strong th:text="${doctorCount}">0</strong></div>
+        <div class="card"><span>Appointments</span><strong th:text="${appointmentCount}">0</strong></div>
+        <div class="card"><span>Bills</span><strong th:text="${billCount}">0</strong></div>
+    </div>
+    <div class="quick">
+        <a class="button" href="/patients/new">+ Add Patient</a>
+        <a class="button" href="/doctors/new">+ Add Doctor</a>
+        <a class="button" href="/appointments/new">+ Book Appointment</a>
+        <a class="button" href="/bills/new">+ Create Bill</a>
+    </div>
+</main>
+</body>
+</html>

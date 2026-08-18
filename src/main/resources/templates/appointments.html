@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Appointments</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<nav><div class="brand">🏥 MediCare HMS</div><div><a href="/">Dashboard</a><a href="/patients">Patients</a><a href="/doctors">Doctors</a><a class="active" href="/appointments">Appointments</a><a href="/bills">Billing</a></div></nav>
+<main><div class="page-head"><h1>Appointments</h1><a class="button" href="/appointments/new">+ Book Appointment</a></div>
+<table><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date & Time</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead>
+<tbody><tr th:each="a : ${appointments}"><td th:text="${a.id}"></td><td th:text="${a.patient.name}"></td><td th:text="${a.doctor.name}"></td><td th:text="${a.appointmentDate}"></td><td th:text="${a.reason}"></td><td><span class="badge" th:text="${a.status}"></span></td><td><form th:if="${a.status.name() != 'CANCELLED'}" th:action="@{'/appointments/cancel/' + ${a.id}}" method="post"><button class="danger">Cancel</button></form></td></tr></tbody></table>
+</main></body></html>

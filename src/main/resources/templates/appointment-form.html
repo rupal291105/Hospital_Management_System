@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Book Appointment</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<nav><div class="brand">🏥 MediCare HMS</div><div><a href="/">Dashboard</a><a href="/patients">Patients</a><a href="/doctors">Doctors</a><a href="/appointments">Appointments</a><a href="/bills">Billing</a></div></nav>
+<main class="form-page"><h1>Book Appointment</h1>
+<form class="form" th:action="@{/appointments/save}" th:object="${appointment}" method="post">
+<label>Patient<select name="patientId" required><option value="">Select patient</option><option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.name}"></option></select></label>
+<label>Doctor<select name="doctorId" required><option value="">Select doctor</option><option th:each="d : ${doctors}" th:value="${d.id}" th:text="${d.name + ' - ' + d.specialization}"></option></select></label>
+<label>Date & Time<input type="datetime-local" th:field="*{appointmentDate}" required></label><label>Reason<textarea th:field="*{reason}"></textarea></label>
+<div><button class="button">Book Appointment</button><a class="button secondary" href="/appointments">Cancel</a></div>
+</form></main></body></html>
