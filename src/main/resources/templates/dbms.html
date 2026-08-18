@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>DBMS Operations</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 22px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #cbd5e1;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1400px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #111827;
+        }
+
+        h3 {
+            color: #374151;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            margin: 7px 0 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+
+        button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .danger {
+            background: #dc2626;
+        }
+
+        .success {
+            background: #059669;
+        }
+
+        .warning {
+            background: #d97706;
+        }
+
+        .info {
+            background: #0284c7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        .message {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .sql {
+            background: #111827;
+            color: #e5e7eb;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: monospace;
+            margin-top: 12px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>🏥 Hospital Management System</h1>
+
+    <p>DBMS Practical Operations Dashboard</p>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- MESSAGES -->
+
+    <div th:if="${setupMessage}"
+         class="message"
+         th:text="${setupMessage}">
+    </div>
+
+    <div th:if="${setupError}"
+         class="error"
+         th:text="${setupError}">
+    </div>
+
+
+    <!-- CRUD -->
+
+    <div class="card">
+
+        <h2>1. CRUD Operations</h2>
+
+        <div class="grid">
+
+            <!-- CREATE -->
+
+            <div>
+
+                <h3>CREATE / INSERT Patient</h3>
+
+                <form method="post"
+                      action="/dbms/patient/insert">
+
+                    <input name="name"
+                           placeholder="Name"
+                           required>
+
+                    <input name="age"
+                           type="number"
+                           placeholder="Age"
+                           required>
+
+                    <input name="gender"
+                           placeholder="Gender"
+                           required>
+
+                    <input name="phone"
+                           placeholder="Phone"
+                           required>
+
+                    <input name="email"
+                           type="email"
+                           placeholder="Email"
+                           required>
+
+                    <input name="address"
+                           placeholder="Address"
+                           required>
+
+                    <input name="medicalHistory"
+                           placeholder="Medical History"
+                           required>
+
+                    <button class="success">
+                        INSERT PATIENT
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- UPDATE -->
+
+            <div>
+
+                <h3>UPDATE Patient</h3>
+
+                <form method="post"
+                      action="/dbms/patient/update">
+
+                    <input name="id"
+                           type="number"
+                           placeholder="Patient ID"
+                           required>
+
+                    <input name="age"
+                           type="number"
+                           placeholder="New Age"
+                           required>
+
+                    <input name="phone"
+                           placeholder="New Phone"
+                           required>
+
+                    <input name="address"
+                           placeholder="New Address"
+                           required>
+
+                    <button class="warning">
+                        UPDATE PATIENT
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- DELETE -->
+
+            <div>
+
+                <h3>DELETE Patient</h3>
+
+                <form method="post"
+                      action="/dbms/patient/delete">
+
+                    <input name="id"
+                           type="number"
+                           placeholder="Patient ID"
+                           required>
+
+                    <button class="danger">
+                        DELETE PATIENT
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <h3>READ / SELECT – All Patients</h3>
+
+        <table>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+
+            </tr>
+
+            <tr th:each="p : ${patients}">
+
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.name}"></td>
+                <td th:text="${p.age}"></td>
+                <td th:text="${p.gender}"></td>
+                <td th:text="${p.phone}"></td>
+                <td th:text="${p.email}"></td>
+                <td th:text="${p.address}"></td>
+
+            </tr>
+
+        </table>
+
+        <div class="sql">
+            SELECT * FROM patients;
+        </div>
+
+    </div>
+
+
+    <!-- JOIN -->
+
+    <div class="card">
+
+        <h2>2. JOIN Operation</h2>
+
+        <p>
+            Patient + Doctor + Appointment data
+            using INNER JOIN.
+        </p>
+
+        <table>
+
+            <tr>
+
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Appointment Date</th>
+                <th>Status</th>
+
+            </tr>
+
+            <tr th:each="row : ${joinResults}">
+
+                <td th:text="${row.patient}"></td>
+
+                <td th:text="${row.doctor}"></td>
+
+                <td th:text="${row.appointment_date}"></td>
+
+                <td th:text="${row.status}"></td>
+
+            </tr>
+
+        </table>
+
+
+        <div class="sql">
+            SELECT p.name AS patient,
+            d.name AS doctor,
+            a.appointment_date,
+            a.status
+            FROM appointments a
+            JOIN patients p ON a.patient_id = p.id
+            JOIN doctors d ON a.doctor_id = d.id;
+        </div>
+
+    </div>
+
+
+    <!-- GROUP BY -->
+
+    <div class="card">
+
+        <h2>3. GROUP BY + Aggregate</h2>
+
+        <h3>Appointments by Status</h3>
+
+        <table>
+
+            <tr>
+
+                <th>Status</th>
+                <th>Total Appointments</th>
+
+            </tr>
+
+            <tr th:each="row : ${groupResults}">
+
+                <td th:text="${row.status}"></td>
+
+                <td th:text="${row.total}"></td>
+
+            </tr>
+
+        </table>
+
+
+        <div class="sql">
+            SELECT status, COUNT(*) AS total
+            FROM appointments
+            GROUP BY status;
+        </div>
+
+
+        <h3>Total Hospital Billing</h3>
+
+        <span class="badge">
+            ₹ <span th:text="${totalBilled}"></span>
+        </span>
+
+
+        <div class="sql">
+            SELECT SUM(total_amount)
+            FROM bills;
+        </div>
+
+    </div>
+
+
+    <!-- STORED PROCEDURE -->
+
+    <div class="card">
+
+        <h2>4. Stored Procedure</h2>
+
+        <p>
+            Get all appointments of a selected patient.
+        </p>
+
+        <form method="get"
+              action="/dbms">
+
+            <select name="patientId"
+                    required>
+
+                <option value="">
+                    Select Patient
+                </option>
+
+                <option th:each="p : ${patients}"
+                        th:value="${p.id}"
+                        th:text="${p.name + ' (ID: ' + p.id + ')'}"
+                        th:selected="${selectedPatientId != null and selectedPatientId == p.id}">
+                </option>
+
+            </select>
+
+            <button class="info">
+                RUN STORED PROCEDURE
+            </button>
+
+        </form>
+
+
+        <div th:if="${procedureResults}">
+
+            <h3>Procedure Result</h3>
+
+            <table>
+
+                <tr>
+
+                    <th>Appointment ID</th>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Status</th>
+
+                </tr>
+
+                <tr th:each="row : ${procedureResults}">
+
+                    <td th:text="${row.id}"></td>
+                    <td th:text="${row.appointment_date}"></td>
+                    <td th:text="${row.doctor}"></td>
+                    <td th:text="${row.status}"></td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <div th:if="${procedureError}"
+             class="error"
+             th:text="${procedureError}">
+        </div>
+
+
+        <div class="sql">
+            CALL GetPatientAppointments(patient_id);
+        </div>
+
+    </div>
+
+
+    <!-- FUNCTION -->
+
+    <div class="card">
+
+        <h2>5. Stored Function</h2>
+
+        <p>
+            Calculate Due Amount using MySQL function.
+        </p>
+
+        <form method="get"
+              action="/dbms/function">
+
+            <input name="total"
+                   type="number"
+                   step="0.01"
+                   placeholder="Total Amount"
+                   required>
+
+            <input name="paid"
+                   type="number"
+                   step="0.01"
+                   placeholder="Paid Amount"
+                   required>
+
+            <button class="success">
+                RUN FUNCTION
+            </button>
+
+        </form>
+
+
+        <div th:if="${functionDue != null}"
+             class="message">
+
+            Total:
+            ₹<span th:text="${functionTotal}"></span>
+
+            <br>
+
+            Paid:
+            ₹<span th:text="${functionPaid}"></span>
+
+            <br>
+
+            <strong>
+                Due:
+                ₹<span th:text="${functionDue}"></span>
+            </strong>
+
+        </div>
+
+
+        <div class="sql">
+            SELECT CalculateDue(total_amount, paid_amount);
+        </div>
+
+    </div>
+
+
+    <!-- TRIGGER -->
+
+    <div class="card">
+
+        <h2>6. Trigger Demonstration</h2>
+
+        <p>
+            Enter Paid Amount greater than Total Amount.
+            The MySQL trigger automatically changes the
+            paid amount to the total amount.
+        </p>
+
+        <form method="post"
+              action="/dbms/trigger">
+
+            <select name="patientId"
+                    required>
+
+                <option value="">
+                    Select Patient
+                </option>
+
+                <option th:each="p : ${patients}"
+                        th:value="${p.id}"
+                        th:text="${p.name + ' (ID: ' + p.id + ')'}">
+                </option>
+
+            </select>
+
+            <input name="total"
+                   type="number"
+                   step="0.01"
+                   placeholder="Total Amount e.g. 5000"
+                   required>
+
+            <input name="paid"
+                   type="number"
+                   step="0.01"
+                   placeholder="Paid Amount e.g. 7000"
+                   required>
+
+            <button class="warning">
+                TEST TRIGGER
+            </button>
+
+        </form>
+
+
+        <div th:if="${triggerResult}"
+             class="message">
+
+            <strong>Trigger Result</strong>
+
+            <br><br>
+
+            Bill ID:
+            <span th:text="${triggerResult.id}"></span>
+
+            <br>
+
+            Total Amount:
+            ₹<span th:text="${triggerResult.total_amount}"></span>
+
+            <br>
+
+            Paid Amount after Trigger:
+            ₹<span th:text="${triggerResult.paid_amount}"></span>
+
+            <br>
+
+            Status:
+            <span th:text="${triggerResult.status}"></span>
+
+        </div>
+
+
+        <div th:if="${triggerError}"
+             class="error"
+             th:text="${triggerError}">
+        </div>
+
+
+        <div class="sql">
+            BEFORE INSERT TRIGGER:
+            IF NEW.paid_amount > NEW.total_amount
+            THEN SET NEW.paid_amount = NEW.total_amount;
+        </div>
+
+    </div>
+
+
+    <a class="back"
+       href="/">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+
+</html>
