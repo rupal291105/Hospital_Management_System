@@ -5,7 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <title>DBMS Operations</title>
+    <title>DBMS Operations | CityCare HMS</title>
 
     <style>
 
@@ -37,7 +37,7 @@
 
         .container {
             width: 94%;
-            max-width: 1400px;
+            max-width: 1450px;
             margin: 30px auto;
         }
 
@@ -56,28 +56,54 @@
 
         h3 {
             color: #374151;
+            margin-top: 0;
+        }
+
+        .section-title {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+            margin-bottom: 22px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
 
+        .form-box {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            background: #fafafa;
+        }
+
         input,
-        select {
+        select,
+        textarea {
             width: 100%;
             padding: 11px;
             margin: 7px 0 12px;
             border: 1px solid #cbd5e1;
             border-radius: 7px;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
         }
 
         button {
             border: none;
             padding: 11px 18px;
             border-radius: 7px;
-            background: #2563eb;
             color: white;
             cursor: pointer;
             font-weight: bold;
@@ -85,6 +111,10 @@
 
         button:hover {
             opacity: 0.9;
+        }
+
+        .primary {
+            background: #2563eb;
         }
 
         .danger {
@@ -125,6 +155,10 @@
             background: #f8fafc;
         }
 
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
         .badge {
             display: inline-block;
             padding: 7px 12px;
@@ -157,15 +191,52 @@
             border-radius: 8px;
             overflow-x: auto;
             font-family: monospace;
-            margin-top: 12px;
+            margin-top: 15px;
+            white-space: pre-wrap;
         }
 
         .back {
             display: inline-block;
-            margin-top: 20px;
+            margin: 5px 0 30px;
             text-decoration: none;
             color: #2563eb;
             font-weight: bold;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .small-note {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .fetch-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .fetch-row input {
+            flex: 1;
+        }
+
+        .fetch-row button {
+            margin-top: 7px;
+            height: 42px;
+        }
+
+        .readonly {
+            background: #f1f5f9;
+        }
+
+        @media (max-width: 1000px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
         }
 
     </style>
@@ -185,7 +256,6 @@
 
 <div class="container">
 
-
     <!-- MESSAGES -->
 
     <div th:if="${setupMessage}"
@@ -199,29 +269,35 @@
     </div>
 
 
-    <!-- CRUD -->
+    <!-- ================================================= -->
+    <!-- PATIENT -->
+    <!-- ================================================= -->
 
     <div class="card">
 
-        <h2>1. CRUD Operations</h2>
+        <h2 class="section-title">
+            1. Patient CRUD Operations
+        </h2>
 
         <div class="grid">
 
             <!-- CREATE -->
 
-            <div>
+            <div class="form-box">
 
-                <h3>CREATE / INSERT Patient</h3>
+                <h3>➕ Create Patient</h3>
 
                 <form method="post"
                       action="/dbms/patient/insert">
 
                     <input name="name"
-                           placeholder="Name"
+                           placeholder="Patient Name"
                            required>
 
                     <input name="age"
                            type="number"
+                           min="1"
+                           max="150"
                            placeholder="Age"
                            required>
 
@@ -230,7 +306,9 @@
                            required>
 
                     <input name="phone"
-                           placeholder="Phone"
+                           pattern="[0-9]{10}"
+                           maxlength="10"
+                           placeholder="10 Digit Phone"
                            required>
 
                     <input name="email"
@@ -242,9 +320,10 @@
                            placeholder="Address"
                            required>
 
-                    <input name="medicalHistory"
-                           placeholder="Medical History"
-                           required>
+                    <textarea name="medicalHistory"
+                              rows="3"
+                              placeholder="Medical History"
+                              required></textarea>
 
                     <button class="success">
                         INSERT PATIENT
@@ -257,9 +336,9 @@
 
             <!-- UPDATE -->
 
-            <div>
+            <div class="form-box">
 
-                <h3>UPDATE Patient</h3>
+                <h3>✏️ Update Patient</h3>
 
                 <form method="post"
                       action="/dbms/patient/update">
@@ -269,18 +348,40 @@
                            placeholder="Patient ID"
                            required>
 
+                    <input name="name"
+                           placeholder="Name"
+                           required>
+
                     <input name="age"
                            type="number"
-                           placeholder="New Age"
+                           min="1"
+                           max="150"
+                           placeholder="Age"
+                           required>
+
+                    <input name="gender"
+                           placeholder="Gender"
                            required>
 
                     <input name="phone"
-                           placeholder="New Phone"
+                           pattern="[0-9]{10}"
+                           maxlength="10"
+                           placeholder="Phone"
+                           required>
+
+                    <input name="email"
+                           type="email"
+                           placeholder="Email"
                            required>
 
                     <input name="address"
-                           placeholder="New Address"
+                           placeholder="Address"
                            required>
+
+                    <textarea name="medicalHistory"
+                              rows="3"
+                              placeholder="Medical History"
+                              required></textarea>
 
                     <button class="warning">
                         UPDATE PATIENT
@@ -293,9 +394,13 @@
 
             <!-- DELETE -->
 
-            <div>
+            <div class="form-box">
 
-                <h3>DELETE Patient</h3>
+                <h3>🗑️ Delete Patient</h3>
+
+                <p class="small-note">
+                    Deleting a patient also removes their appointments and bills.
+                </p>
 
                 <form method="post"
                       action="/dbms/patient/delete">
@@ -313,128 +418,679 @@
 
             </div>
 
-        </div>
 
+            <!-- TABLE -->
 
-        <h3>READ / SELECT – All Patients</h3>
+            <div class="full">
 
-        <table>
+                <h3>📋 All Patients</h3>
 
-            <tr>
+                <div class="table-wrapper">
 
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Address</th>
+                    <table>
 
-            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Medical History</th>
+                        </tr>
 
-            <tr th:each="p : ${patients}">
+                        <tr th:each="p : ${patients}">
 
-                <td th:text="${p.id}"></td>
-                <td th:text="${p.name}"></td>
-                <td th:text="${p.age}"></td>
-                <td th:text="${p.gender}"></td>
-                <td th:text="${p.phone}"></td>
-                <td th:text="${p.email}"></td>
-                <td th:text="${p.address}"></td>
+                            <td th:text="${p.id}"></td>
+                            <td th:text="${p.name}"></td>
+                            <td th:text="${p.age}"></td>
+                            <td th:text="${p.gender}"></td>
+                            <td th:text="${p.phone}"></td>
+                            <td th:text="${p.email}"></td>
+                            <td th:text="${p.address}"></td>
+                            <td th:text="${p.medical_history}"></td>
 
-            </tr>
+                        </tr>
 
-        </table>
+                    </table>
 
-        <div class="sql">
-            SELECT * FROM patients;
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 
 
-    <!-- JOIN -->
+    <!-- ================================================= -->
+    <!-- DOCTOR -->
+    <!-- ================================================= -->
 
     <div class="card">
 
-        <h2>2. JOIN Operation</h2>
+        <h2 class="section-title">
+            2. Doctor CRUD Operations
+        </h2>
 
-        <p>
-            Patient + Doctor + Appointment data
-            using INNER JOIN.
+        <div class="grid">
+
+            <!-- CREATE -->
+
+            <div class="form-box">
+
+                <h3>➕ Create Doctor</h3>
+
+                <form method="post"
+                      action="/dbms/doctor/insert">
+
+                    <input name="name"
+                           placeholder="Doctor Name"
+                           required>
+
+                    <input name="specialization"
+                           placeholder="Specialization"
+                           required>
+
+                    <input name="phone"
+                           pattern="[0-9]{10}"
+                           maxlength="10"
+                           placeholder="10 Digit Phone"
+                           required>
+
+                    <input name="email"
+                           type="email"
+                           placeholder="Email"
+                           required>
+
+                    <input name="roomNumber"
+                           placeholder="Room Number"
+                           required>
+
+                    <button class="success">
+                        INSERT DOCTOR
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- UPDATE -->
+
+            <div class="form-box">
+
+                <h3>✏️ Update Doctor</h3>
+
+                <form method="post"
+                      action="/dbms/doctor/update">
+
+                    <input name="id"
+                           type="number"
+                           placeholder="Doctor ID"
+                           required>
+
+                    <input name="name"
+                           placeholder="Name"
+                           required>
+
+                    <input name="specialization"
+                           placeholder="Specialization"
+                           required>
+
+                    <input name="phone"
+                           pattern="[0-9]{10}"
+                           maxlength="10"
+                           placeholder="Phone"
+                           required>
+
+                    <input name="email"
+                           type="email"
+                           placeholder="Email"
+                           required>
+
+                    <input name="roomNumber"
+                           placeholder="Room Number"
+                           required>
+
+                    <button class="warning">
+                        UPDATE DOCTOR
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- DELETE -->
+
+            <div class="form-box">
+
+                <h3>🗑️ Delete Doctor</h3>
+
+                <form method="post"
+                      action="/dbms/doctor/delete">
+
+                    <input name="id"
+                           type="number"
+                           placeholder="Doctor ID"
+                           required>
+
+                    <button class="danger">
+                        DELETE DOCTOR
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="full">
+
+                <h3>📋 All Doctors</h3>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Specialization</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Room</th>
+                        </tr>
+
+                        <tr th:each="d : ${doctors}">
+
+                            <td th:text="${d.id}"></td>
+                            <td th:text="${d.name}"></td>
+                            <td th:text="${d.specialization}"></td>
+                            <td th:text="${d.phone}"></td>
+                            <td th:text="${d.email}"></td>
+                            <td th:text="${d.room_number}"></td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- APPOINTMENT -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+        <h2 class="section-title">
+            3. Appointment CRUD Operations
+        </h2>
+
+        <p class="small-note">
+            An appointment requires an existing Patient and Doctor.
         </p>
 
-        <table>
+        <div class="grid">
 
-            <tr>
+            <!-- CREATE APPOINTMENT -->
 
-                <th>Patient</th>
-                <th>Doctor</th>
-                <th>Appointment Date</th>
-                <th>Status</th>
+            <div class="form-box">
 
-            </tr>
+                <h3>➕ Create Appointment</h3>
 
-            <tr th:each="row : ${joinResults}">
+                <form method="post"
+                      action="/dbms/appointment/insert">
 
-                <td th:text="${row.patient}"></td>
+                    <select name="patientId" required>
+                        <option value="">Select Patient</option>
+                        <option th:each="p : ${patients}"
+                                th:value="${p.id}"
+                                th:text="${p.name + ' · ' + p.phone}">
+                        </option>
+                    </select>
 
-                <td th:text="${row.doctor}"></td>
+                    <select name="doctorId" required>
+                        <option value="">Select Doctor</option>
+                        <option th:each="d : ${doctors}"
+                                th:value="${d.id}"
+                                th:text="${d.name + ' · ' + d.specialization}">
+                        </option>
+                    </select>
 
-                <td th:text="${row.appointment_date}"></td>
+                    <input name="appointmentDate"
+                           type="datetime-local"
+                           required>
 
-                <td th:text="${row.status}"></td>
+                    <select name="status" required>
+                        <option value="">Select Status</option>
+                        <option value="SCHEDULED">SCHEDULED</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                    </select>
 
-            </tr>
+                    <textarea name="reason"
+                              rows="3"
+                              placeholder="Reason"
+                              required></textarea>
 
-        </table>
+                    <button class="success">
+                        INSERT APPOINTMENT
+                    </button>
+
+                </form>
+
+            </div>
 
 
-        <div class="sql">
-            SELECT p.name AS patient,
-            d.name AS doctor,
-            a.appointment_date,
-            a.status
-            FROM appointments a
-            JOIN patients p ON a.patient_id = p.id
-            JOIN doctors d ON a.doctor_id = d.id;
+            <!-- UPDATE APPOINTMENT -->
+
+            <div class="form-box">
+
+                <h3>✏️ Update Appointment</h3>
+
+                <form method="post"
+                      action="/dbms/appointment/update">
+
+                    <input name="id"
+                           id="appointmentId"
+                           type="number"
+                           placeholder="Appointment ID"
+                           required
+                           oninput="autoFetchAppointment()">
+
+                    <select name="patientId"
+                            id="appointmentPatientId"
+                            required>
+                        <option value="">Select Patient</option>
+                        <option th:each="p : ${patients}"
+                                th:value="${p.id}"
+                                th:text="${p.name + ' · ' + p.phone}">
+                        </option>
+                    </select>
+
+                    <select name="doctorId"
+                            id="appointmentDoctorId"
+                            required>
+                        <option value="">Select Doctor</option>
+                        <option th:each="d : ${doctors}"
+                                th:value="${d.id}"
+                                th:text="${d.name + ' · ' + d.specialization}">
+                        </option>
+                    </select>
+
+                    <input name="appointmentDate"
+                           id="appointmentDate"
+                           type="datetime-local"
+                           required>
+
+                    <select name="status"
+                            id="appointmentStatus"
+                            required>
+                        <option value="">Select Status</option>
+                        <option value="SCHEDULED">SCHEDULED</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                    </select>
+
+                    <textarea name="reason"
+                              id="appointmentReason"
+                              rows="3"
+                              placeholder="Reason"
+                              required></textarea>
+
+                    <button class="warning"
+                            type="submit">
+                        UPDATE APPOINTMENT
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- DELETE APPOINTMENT -->
+
+            <div class="form-box">
+
+                <h3>🗑️ Delete Appointment</h3>
+
+                <p class="small-note">
+                    Enter Appointment ID to delete it.
+                </p>
+
+                <form method="post"
+                      action="/dbms/appointment/delete">
+
+                    <input name="id"
+                           type="number"
+                           placeholder="Appointment ID"
+                           required>
+
+                    <button class="danger">
+                        DELETE APPOINTMENT
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- APPOINTMENT TABLE -->
+
+            <div class="full">
+
+                <h3>📋 All Appointments</h3>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Appointment Date</th>
+                            <th>Status</th>
+                            <th>Reason</th>
+                        </tr>
+
+                        <tr th:each="a : ${appointments}">
+
+                            <td th:text="${a.id}"></td>
+
+                            <td th:text="${a.patient}"></td>
+
+                            <td th:text="${a.doctor}"></td>
+
+                            <td th:text="${a.appointment_date}"></td>
+
+                            <td th:text="${a.status}"></td>
+
+                            <td th:text="${a.reason}"></td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 
 
-    <!-- GROUP BY -->
+    <!-- ================================================= -->
+    <!-- BILL -->
+    <!-- ================================================= -->
 
     <div class="card">
 
-        <h2>3. GROUP BY + Aggregate</h2>
+        <h2 class="section-title">
+            4. Bill CRUD Operations
+        </h2>
+
+        <p class="small-note">
+            Bill status is automatically calculated from Total Amount and Paid Amount.
+        </p>
+
+        <div class="grid">
+
+            <!-- CREATE BILL -->
+
+            <div class="form-box">
+
+                <h3>➕ Create Bill</h3>
+
+                <form method="post"
+                      action="/dbms/bill/insert">
+
+                    <select name="patientId" required>
+                        <option value="">Select Patient</option>
+                        <option th:each="p : ${patients}"
+                                th:value="${p.id}"
+                                th:text="${p.name + ' · ' + p.phone}">
+                        </option>
+                    </select>
+
+                    <input name="totalAmount"
+                           type="number"
+                           step="0.01"
+                           min="0.01"
+                           placeholder="Total Amount"
+                           required>
+
+                    <input name="paidAmount"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           placeholder="Paid Amount"
+                           required>
+
+                    <button class="success">
+                        INSERT BILL
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- UPDATE BILL -->
+
+            <div class="form-box">
+
+                <h3>✏️ Update Bill</h3>
+
+                <form method="post"
+                      action="/dbms/bill/update">
+
+                    <input name="id"
+                           id="billId"
+                           type="number"
+                           placeholder="Bill ID"
+                           required
+                           oninput="autoFetchBill()">
+
+                    <input id="billPatient"
+                           type="text"
+                           class="readonly"
+                           placeholder="Patient"
+                           readonly>
+
+                    <input name="totalAmount"
+                           id="billTotalAmount"
+                           type="number"
+                           step="0.01"
+                           min="0.01"
+                           placeholder="Total Amount"
+                           required>
+
+                    <input name="paidAmount"
+                           id="billPaidAmount"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           placeholder="Paid Amount"
+                           required>
+
+                    <p class="small-note">
+                        Status is calculated automatically.
+                    </p>
+
+                    <button class="warning">
+                        UPDATE BILL
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- DELETE BILL -->
+
+            <div class="form-box">
+
+                <h3>🗑️ Delete Bill</h3>
+
+                <form method="post"
+                      action="/dbms/bill/delete">
+
+                    <input name="id"
+                           type="number"
+                           placeholder="Bill ID"
+                           required>
+
+                    <button class="danger">
+                        DELETE BILL
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- BILL TABLE -->
+
+            <div class="full">
+
+                <h3>📋 All Bills</h3>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Total Amount</th>
+                            <th>Paid Amount</th>
+                            <th>Status</th>
+                            <th>Bill Date</th>
+                        </tr>
+
+                        <tr th:each="b : ${bills}">
+
+                            <td th:text="${b.id}"></td>
+
+                            <td th:text="${b.patient}"></td>
+
+                            <td th:text="${b.total_amount}"></td>
+
+                            <td th:text="${b.paid_amount}"></td>
+
+                            <td th:text="${b.status}"></td>
+
+                            <td th:text="${b.bill_date}"></td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- JOIN -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+        <h2>5. JOIN Operation</h2>
+
+        <p>
+            Patient + Doctor + Appointment data using INNER JOIN.
+        </p>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Appointment Date</th>
+                    <th>Status</th>
+                </tr>
+
+                <tr th:each="row : ${joinResults}">
+
+                    <td th:text="${row.patient}"></td>
+                    <td th:text="${row.doctor}"></td>
+                    <td th:text="${row.appointment_date}"></td>
+                    <td th:text="${row.status}"></td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="sql">
+SELECT p.name AS patient,
+       d.name AS doctor,
+       a.appointment_date,
+       a.status
+FROM appointments a
+JOIN patients p ON a.patient_id = p.id
+JOIN doctors d ON a.doctor_id = d.id;
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- GROUP BY -->
+    <!-- ================================================= -->
+
+    <div class="card">
+
+        <h2>6. GROUP BY + Aggregate</h2>
 
         <h3>Appointments by Status</h3>
 
-        <table>
+        <div class="table-wrapper">
 
-            <tr>
+            <table>
 
-                <th>Status</th>
-                <th>Total Appointments</th>
+                <tr>
+                    <th>Status</th>
+                    <th>Total Appointments</th>
+                </tr>
 
-            </tr>
+                <tr th:each="row : ${groupResults}">
 
-            <tr th:each="row : ${groupResults}">
+                    <td th:text="${row.status}"></td>
+                    <td th:text="${row.total}"></td>
 
-                <td th:text="${row.status}"></td>
+                </tr>
 
-                <td th:text="${row.total}"></td>
+            </table>
 
-            </tr>
-
-        </table>
-
+        </div>
 
         <div class="sql">
-            SELECT status, COUNT(*) AS total
-            FROM appointments
-            GROUP BY status;
+SELECT status, COUNT(*) AS total
+FROM appointments
+GROUP BY status;
         </div>
 
 
@@ -444,20 +1100,21 @@
             ₹ <span th:text="${totalBilled}"></span>
         </span>
 
-
         <div class="sql">
-            SELECT SUM(total_amount)
-            FROM bills;
+SELECT SUM(total_amount)
+FROM bills;
         </div>
 
     </div>
 
 
+    <!-- ================================================= -->
     <!-- STORED PROCEDURE -->
+    <!-- ================================================= -->
 
     <div class="card">
 
-        <h2>4. Stored Procedure</h2>
+        <h2>7. Stored Procedure</h2>
 
         <p>
             Get all appointments of a selected patient.
@@ -475,8 +1132,7 @@
 
                 <option th:each="p : ${patients}"
                         th:value="${p.id}"
-                        th:text="${p.name + ' (ID: ' + p.id + ')'}"
-                        th:selected="${selectedPatientId != null and selectedPatientId == p.id}">
+                        th:text="${p.name + ' (ID: ' + p.id + ')'}">
                 </option>
 
             </select>
@@ -488,53 +1144,51 @@
         </form>
 
 
-        <div th:if="${procedureResults}">
+        <div th:if="${procedureResults != null}">
 
             <h3>Procedure Result</h3>
 
-            <table>
+            <div class="table-wrapper">
 
-                <tr>
+                <table>
 
-                    <th>Appointment ID</th>
-                    <th>Date</th>
-                    <th>Doctor</th>
-                    <th>Status</th>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Date</th>
+                        <th>Doctor</th>
+                        <th>Status</th>
+                    </tr>
 
-                </tr>
+                    <tr th:each="row : ${procedureResults}">
 
-                <tr th:each="row : ${procedureResults}">
+                        <td th:text="${row.id}"></td>
+                        <td th:text="${row.appointment_date}"></td>
+                        <td th:text="${row.doctor}"></td>
+                        <td th:text="${row.status}"></td>
 
-                    <td th:text="${row.id}"></td>
-                    <td th:text="${row.appointment_date}"></td>
-                    <td th:text="${row.doctor}"></td>
-                    <td th:text="${row.status}"></td>
+                    </tr>
 
-                </tr>
+                </table>
 
-            </table>
+            </div>
 
         </div>
-
 
         <div th:if="${procedureError}"
              class="error"
              th:text="${procedureError}">
         </div>
 
-
-        <div class="sql">
-            CALL GetPatientAppointments(patient_id);
-        </div>
-
     </div>
 
 
-    <!-- FUNCTION -->
+    <!-- ================================================= -->
+    <!-- STORED FUNCTION -->
+    <!-- ================================================= -->
 
     <div class="card">
 
-        <h2>5. Stored Function</h2>
+        <h2>8. Stored Function</h2>
 
         <p>
             Calculate Due Amount using MySQL function.
@@ -546,12 +1200,14 @@
             <input name="total"
                    type="number"
                    step="0.01"
+                   min="0"
                    placeholder="Total Amount"
                    required>
 
             <input name="paid"
                    type="number"
                    step="0.01"
+                   min="0"
                    placeholder="Paid Amount"
                    required>
 
@@ -582,24 +1238,26 @@
 
         </div>
 
-
-        <div class="sql">
-            SELECT CalculateDue(total_amount, paid_amount);
+        <div th:if="${functionError}"
+             class="error"
+             th:text="${functionError}">
         </div>
 
     </div>
 
 
+    <!-- ================================================= -->
     <!-- TRIGGER -->
+    <!-- ================================================= -->
 
     <div class="card">
 
-        <h2>6. Trigger Demonstration</h2>
+        <h2>9. Trigger Demonstration</h2>
 
         <p>
             Enter Paid Amount greater than Total Amount.
-            The MySQL trigger automatically changes the
-            paid amount to the total amount.
+            The MySQL trigger automatically limits Paid Amount
+            to Total Amount.
         </p>
 
         <form method="post"
@@ -622,13 +1280,15 @@
             <input name="total"
                    type="number"
                    step="0.01"
-                   placeholder="Total Amount e.g. 5000"
+                   min="0.01"
+                   placeholder="Total Amount"
                    required>
 
             <input name="paid"
                    type="number"
                    step="0.01"
-                   placeholder="Paid Amount e.g. 7000"
+                   min="0"
+                   placeholder="Paid Amount"
                    required>
 
             <button class="warning">
@@ -671,13 +1331,6 @@
              th:text="${triggerError}">
         </div>
 
-
-        <div class="sql">
-            BEFORE INSERT TRIGGER:
-            IF NEW.paid_amount > NEW.total_amount
-            THEN SET NEW.paid_amount = NEW.total_amount;
-        </div>
-
     </div>
 
 
@@ -687,6 +1340,122 @@
     </a>
 
 </div>
+
+
+<script>
+
+    let appointmentTimer;
+    let billTimer;
+
+
+    function autoFetchAppointment() {
+
+        clearTimeout(appointmentTimer);
+
+        const id =
+            document.getElementById("appointmentId").value;
+
+        if (!id) {
+            return;
+        }
+
+        appointmentTimer = setTimeout(async function () {
+
+            try {
+
+                const response =
+                    await fetch("/dbms/appointment/get?id=" + id);
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+
+                document.getElementById(
+                    "appointmentPatientId"
+                ).value = data.patient_id;
+
+                document.getElementById(
+                    "appointmentDoctorId"
+                ).value = data.doctor_id;
+
+                document.getElementById(
+                    "appointmentStatus"
+                ).value = data.status;
+
+                document.getElementById(
+                    "appointmentReason"
+                ).value = data.reason || "";
+
+                if (data.appointment_date) {
+
+                    let date =
+                        String(data.appointment_date)
+                            .replace(" ", "T")
+                            .substring(0, 16);
+
+                    document.getElementById(
+                        "appointmentDate"
+                    ).value = date;
+                }
+
+            } catch (error) {
+
+                console.log("Appointment not found.");
+
+            }
+
+        }, 400);
+    }
+
+
+    function autoFetchBill() {
+
+        clearTimeout(billTimer);
+
+        const id =
+            document.getElementById("billId").value;
+
+        if (!id) {
+            return;
+        }
+
+        billTimer = setTimeout(async function () {
+
+            try {
+
+                const response =
+                    await fetch("/dbms/bill/get?id=" + id);
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+
+                document.getElementById(
+                    "billPatient"
+                ).value = data.patient || "";
+
+                document.getElementById(
+                    "billTotalAmount"
+                ).value = data.total_amount;
+
+                document.getElementById(
+                    "billPaidAmount"
+                ).value = data.paid_amount;
+
+            } catch (error) {
+
+                console.log("Bill not found.");
+
+            }
+
+        }, 400);
+    }
+
+</script>
 
 </body>
 
